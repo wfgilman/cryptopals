@@ -73,6 +73,8 @@ func encodeBase64(b []byte) []byte {
 	}
 
 	// And convert them into two (and maybe three) 6-bit values.
+	// Bit shift the value and & with '?' (hex 0x3F) to wrap 64 bits
+	// e.g. 2 & '?' = 2, 66 & '?' = 2
 	buf[j+0] = encode[val>>18&0x3F]
 	buf[j+1] = encode[val>>12&0x3F]
 	if remain == 2 {
