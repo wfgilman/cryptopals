@@ -3,10 +3,10 @@ package challenges
 func HexStringFixedXOR(a string, b string) string {
 	da := DecodeHexString(a)
 	db := DecodeHexString(b)
-	return EncodeHexToString(fixedXOR(da, db))
+	return EncodeHexToString(FixedXOR(da, db))
 }
 
-func fixedXOR(a []byte, b []byte) []byte {
+func FixedXOR(a []byte, b []byte) []byte {
 	if len(a) != len(b) {
 		panic("byte slices are not equal lengths")
 	}
