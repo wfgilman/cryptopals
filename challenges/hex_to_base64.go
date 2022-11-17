@@ -22,6 +22,19 @@ func DecodeHexString(s string) []byte {
 	return res[:i]
 }
 
+func EncodeHexToString(b []byte) string {
+	const hex = "0123456789abcdef"
+	buf := make([]byte, len(b)*2)
+	i := 0
+	for _, val := range b {
+		buf[i] = hex[val>>4]
+		buf[i+1] = hex[val&0x0f] // modulo of 16-bits; 0x0f = 00001111
+		i += 2
+	}
+
+	return string(buf)
+}
+
 func fromHexChar(ch byte) byte {
 	switch {
 	case '0' <= ch && ch <= '9':
@@ -52,7 +65,7 @@ func encodeBase64(b []byte) []byte {
 		val := uint(b[i+0])<<16 + uint(b[i+1])<<8 + uint(b[i+2])
 
 		// Convert the 24 bits into four 6-bit values.
-		buf[j+0] = encode[val>>18&0x3F]
+		buf[j+0] = encode[val>>18&0x3F] // modulo of 64-bits; 0x3f = 0011111
 		buf[j+1] = encode[val>>12&0x3F]
 		buf[j+2] = encode[val>>6&0x3F]
 		buf[j+3] = encode[val&0x3F]
@@ -73,9 +86,7 @@ func encodeBase64(b []byte) []byte {
 	}
 
 	// And convert them into two (and maybe three) 6-bit values.
-	// Bit shift the value and & with '?' (hex 0x3F) to wrap 64 bits
-	// e.g. 2 & '?' = 2, 66 & '?' = 2
-	buf[j+0] = encode[val>>18&0x3F]
+	buf[j+0] = encode[val>>18&0x3F] // modulo of 64-bits; 0x3F = 0011111 = 2^6 = 64
 	buf[j+1] = encode[val>>12&0x3F]
 	if remain == 2 {
 		buf[j+2] = encode[val>>6&0x3F]

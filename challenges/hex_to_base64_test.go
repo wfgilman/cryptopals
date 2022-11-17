@@ -11,6 +11,14 @@ func TestHexToBase64(t *testing.T) {
 	}
 }
 
+func TestEncodeHexToString(t *testing.T) {
+	want := "746865206b696420646f6e277420706c6179"
+	got := EncodeHexToString([]byte("the kid don't play"))
+	if want != got {
+		t.Fatalf("Wanted %s and got %s", want, got)
+	}
+}
+
 func TestDecodeHexToASCIIString(t *testing.T) {
 	tests := []struct {
 		hex   string
