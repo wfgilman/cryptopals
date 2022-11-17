@@ -1,12 +1,12 @@
 package challenges
 
 func HexToBase64(s string) string {
-	decodedS := decodeHexString(s)
+	decodedS := DecodeHexString(s)
 	b := []byte(padLength(string(decodedS)))
 	return string(encodeBase64(b))
 }
 
-func decodeHexString(s string) []byte {
+func DecodeHexString(s string) []byte {
 	res := []byte(s)
 	i, j := 0, 1
 	// Move in two byte increments getting the decimal corresponding
@@ -61,7 +61,7 @@ func encodeBase64(b []byte) []byte {
 		j += 4
 	}
 
-	// If we've reached the end of the byte slice, return.
+	// If we've reached the end of the byte slice, return the buffer.
 	remain := len(b) - i
 	if remain == 0 {
 		return buf

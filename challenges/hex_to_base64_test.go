@@ -10,3 +10,27 @@ func TestHexToBase64(t *testing.T) {
 		t.Fatalf("Wanted %s and got %s", want, got)
 	}
 }
+
+func TestDecodeHexToASCIIString(t *testing.T) {
+	tests := []struct {
+		hex   string
+		ascii string
+	}{
+		{
+			hex:   "41696E2774206E6F207061727479206C696B652061207765737420636F617374207061727479",
+			ascii: "Ain't no party like a west coast party",
+		},
+		{
+			hex:   "4C6F646920646F64692C207765206C696B6520746F207061727479",
+			ascii: "Lodi dodi, we like to party",
+		},
+	}
+
+	for _, test := range tests {
+		want := test.ascii
+		got := DecodeHexString(test.hex)
+		if want != string(got) {
+			t.Fatalf("Wanted %s and got %s", want, got)
+		}
+	}
+}
